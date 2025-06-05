@@ -9,9 +9,7 @@ import { useState } from 'react'
 // 		<button onClick={handleClick}>next anecdote</button>
 // 	);
 // };
-const Vote = (props) => (
-	
-)
+
 
 const App = () => {
   const anecdotes = [
@@ -24,21 +22,35 @@ const App = () => {
     'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.',
     'The only way to go fast, is to go well.'
   ]
-  
-   
-  const [selected, setSelected] = useState(0)
 
-  const setToSelected = (newIndex) => {
+
+  const [selected, setSelected] = useState(0)
+  const [votes, setVotes] = useState(Array(anecdotes.length).fill(0)) //ceate an array filled with 0s
+
+  const setToSelected = () => {
 	const randomIndex = Math.floor(Math.random() * anecdotes.length)
 	setSelected(randomIndex)
   }
 
+  const handleVote = () => {
+	const updatedVotes = [...votes] //copy the array of votes
+	updatedVotes[selected] += 1; //add to the amount of votes for the selected anecdotes
+	setVotes(updatedVotes) //change the state of the votes
+	console.log(updatedVotes[selected])
+  }
+  
+  const mostVotesIndex = votes.indexOf(Math.max(...votes))
+
   return (
     <div>
+		<h1>Anecdote of the day</h1>
 		<p>{anecdotes[selected]}</p>
       <button onClick={setToSelected}>next anecdote</button>
-	  
+	  <button onClick={handleVote}>vote</button>
+	  <h1>Anecdote with the most votes</h1>
+	  	<p>{anecdotes[mostVotesIndex]}</p>
     </div>
+
   )
 }
 
