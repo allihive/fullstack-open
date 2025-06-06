@@ -8,10 +8,20 @@ const App = (props) => {
 
   const handleAddName = (event) => {setNewName(event.target.value)}
 
+  const doubleCheckName = () => {
+	const duplicate = persons.find(person => person.name === newName)
+	if (duplicate) {
+		alert(`${newName} is already added to phonebook`)
+		return true;
+	}
+	else
+		return false;
+  }
+
   const addName = (event) => {
 	event.preventDefault()
-	console.log('button clicked')
-	console.log(newName)
+	if (doubleCheckName()) return;
+	
 	const newPerson = {name: newName}
 	setPersons(persons.concat(newPerson))
 	setNewName('')
